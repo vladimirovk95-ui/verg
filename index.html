@@ -2,6 +2,7 @@
 <html lang="ru">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -12,7 +13,7 @@
 body {
     background:#050505;
     color:#ddd;
-    font-family: Georgia, serif;
+    font-family:Georgia, serif;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -43,20 +44,14 @@ background:#111;
 color:white;
 border:1px solid #777;
 padding:15px 30px;
+margin:10px;
 font-size:18px;
-cursor:pointer;
 
 }
 
-button:hover {
+#reader {
 
-background:#333;
-
-}
-
-.hidden {
-
-display:none;
+margin:20px auto;
 
 }
 
@@ -74,38 +69,51 @@ display:none;
 
 <div id="text"></div>
 
+
 <button id="next">
 Продолжить
 </button>
+
+
+<button id="scan">
+Сканировать Аркану
+</button>
+
+
+<div id="reader"></div>
 
 
 </div>
 
 
 
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+
 <script>
 
 
 const text=document.getElementById("text");
-const button=document.getElementById("next");
+const next=document.getElementById("next");
+const scan=document.getElementById("scan");
 
 
 let stage=0;
 
-const params = new URLSearchParams(window.location.search);
 
-const start = params.get("start");
-    
+const params =
+new URLSearchParams(window.location.search);
 
-if(start==="fool"){
+
+if(params.get("start")==="fool"){
 
 stage=1;
 
 }
 
 
-const scenes=[
 
+const scenes=[
 
 `
 ...
@@ -115,7 +123,6 @@ const scenes=[
 ...
 `,
 
-
 `
 Карта обнаружена.
 
@@ -124,15 +131,12 @@ const scenes=[
 ШУТ
 `,
 
-
 `
 Интересно...
 
 Именно с этой карты
 начинаются все путешествия.
-
 `,
-
 
 `
 Я — Вердж.
@@ -142,15 +146,10 @@ const scenes=[
 
 Сегодня тебе предстоит
 пройти путь.
-
 `,
-
 
 `
 Она ждёт тебя.
-
-Но путь к ней лежит
-через круги Ада.
 
 Начинаем спуск.
 `
@@ -163,28 +162,13 @@ function show(){
 
 text.innerHTML=scenes[stage];
 
-
-if(stage===scenes.length-1){
-
-button.innerHTML="Начать";
-
-}
-
-
 }
 
 
 
-button.onclick=()=>{
-
+next.onclick=function(){
 
 stage++;
-
-
-localStorage.setItem(
-"verg_stage",
-stage
-);
 
 
 if(stage>=scenes.length){
@@ -196,24 +180,48 @@ stage=scenes.length-1;
 
 show();
 
+};
+
+
+
+scan.onclick=function(){
+
+
+const scanner =
+new Html5Qrcode("reader");
+
+
+scanner.start(
+
+{facingMode:"environment"},
+
+{
+fps:10,
+qrbox:250
+},
+
+
+(decodedText)=>{
+
+
+scanner.stop();
+
+
+window.location.href=decodedText;
+
+
+},
+
+
+(error)=>{
+
 
 }
 
-
-stage++;
-
-
-if(stage>=scenes.length){
-
-stage=0;
-
-}
+);
 
 
-show();
-
-
-}
+};
 
 
 
