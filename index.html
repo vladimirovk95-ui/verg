@@ -11,133 +11,93 @@
 <style>
 
 body {
-    background:#050505;
-    color:#ddd;
-    font-family:Georgia, serif;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    margin:0;
+background:#050505;
+color:#ddd;
+font-family:Georgia, serif;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+margin:0;
 }
 
 #game {
-    width:90%;
-    max-width:600px;
-    text-align:center;
+width:90%;
+max-width:600px;
+text-align:center;
 }
 
 h1 {
-    color:white;
-    letter-spacing:5px;
+color:white;
+letter-spacing:5px;
 }
 
 #text {
-    min-height:150px;
-    line-height:1.6;
-    font-size:20px;
+min-height:150px;
+line-height:1.6;
+font-size:20px;
 }
 
 button {
-
 background:#111;
 color:white;
 border:1px solid #777;
 padding:15px 30px;
 margin:10px;
 font-size:18px;
-
 }
 
 #reader {
-
 margin:20px auto;
-
 }
 
 </style>
 
 </head>
 
-
 <body>
-
 
 <div id="game">
 
 <h1>VERG.exe</h1>
 
-<div id="text"></div>
-
+<div id="text">
+Ожидание Аркана...
+</div>
 
 <button id="scan">
 Сканировать Аркану
 </button>
+
 <button id="deck">
 Мои Арканы
 </button>
 
 <div id="inventory"></div>
-<div id="status">
-Ожидание Аркана...
-</div>
-
 
 <div id="reader"></div>
 
-
 </div>
-
-
 
 <script src="https://unpkg.com/html5-qrcode"></script>
 
-
 <script>
 
-
 const text=document.getElementById("text");
-const next=document.getElementById("next");
 const scan=document.getElementById("scan");
+const deck=document.getElementById("deck");
+const inventoryBox=document.getElementById("inventory");
 
-
-let stage=0;
 let inventory =
-JSON.parse(
-localStorage.getItem("verg_cards")
-) || [];
-
-const params =
-new URLSearchParams(window.location.search);
-
-
-const keeper =
-params.get("k");
-
-const arcana =
-params.get("a");
-
-
-if(card){
-
-if(keeper && arcana){
-
-startCard(
-keeper + "-" + arcana
-);
-
-}
-
-}
-
+JSON.parse(localStorage.getItem("verg_cards")) || [];
 
 const cards={
 
 "01-05":{
 
-text:`
+name:"V — Иерофант",
 
-...
+text:`
 
 Аркан распознан.
 
@@ -154,12 +114,15 @@ V — Иерофант.
 
 "01-04":{
 
+name:"IV — Император",
+
 text:`
+
+Аркан распознан.
 
 Император.
 
-Ты получил часть силы
-первого хранителя.
+Часть силы хранителя получена.
 
 `
 
@@ -167,20 +130,23 @@ text:`
 
 "02-08":{
 
+name:"VIII — Сила",
+
 text:`
+
+Аркан распознан.
 
 Сила.
 
-Этот аркан невозможно
-получить случайно.
+Следующий круг открыт.
 
 `
 
-}
+},
 
-};
+"fool":{
 
-fool:{
+name:"0 — Шут",
 
 text:`
 
@@ -192,52 +158,21 @@ text:`
 
 АРКАН 0
 
-ШУТ
+ШУТ.
 
-Интересно...
-
-Именно эта карта
-открывает путь.
-
-`
-
-},
-
-hierophant:{
-
-text:`
-
-АРКАН V
-
-Иерофант.
-
-Значит первый хранитель
-решил открыть тебе дверь.
-
-`
-
-},
-
-strength:{
-
-text:`
-
-АРКАН VIII
-
-Сила.
-
-Следующий круг принят.
+Путешествие начинается.
 
 `
 
 }
 
 };
-function addCard(card){
 
-if(!inventory.includes(card)){
+function addCard(id){
 
-inventory.push(card);
+if(!inventory.includes(id)){
+
+inventory.push(id);
 
 localStorage.setItem(
 "verg_cards",
@@ -247,9 +182,12 @@ JSON.stringify(inventory)
 }
 
 }
+
 function startCard(id){
 
 if(cards[id]){
+
+addCard(id);
 
 text.innerHTML =
 cards[id].text;
@@ -269,91 +207,24 @@ text.innerHTML=
 
 }
 
-if(cards[id]){
+const params =
+new URLSearchParams(window.location.search);
 
-text.innerHTML =
-cards[id].text;
+const keeper=params.get("k");
+const arcana=params.get("a");
 
-}
+if(keeper && arcana){
 
-}
-const scenes=[
-
-`
-...
-
-Соединение установлено.
-
-...
-`,
-
-`
-Карта обнаружена.
-
-АРКАН 0
-
-ШУТ
-`,
-
-`
-Интересно...
-
-Именно с этой карты
-начинаются все путешествия.
-`,
-
-`
-Я — Вердж.
-
-Цифровое отражение
-твоего проводника.
-
-Сегодня тебе предстоит
-пройти путь.
-`,
-
-`
-Она ждёт тебя.
-
-Начинаем спуск.
-`
-
-];
-
-
-
-function show(){
-
-text.innerHTML=scenes[stage];
+startCard(
+keeper+"-"+arcana
+);
 
 }
-
-
-
-next.onclick=function(){
-
-stage++;
-
-
-if(stage>=scenes.length){
-
-stage=scenes.length-1;
-
-}
-
-
-show();
-
-};
-
-
 
 scan.onclick=function(){
 
-
 const scanner =
 new Html5Qrcode("reader");
-
 
 scanner.start(
 
@@ -364,66 +235,47 @@ fps:10,
 qrbox:250
 },
 
-
 (decodedText)=>{
-
 
 scanner.stop();
 
-
-
 window.location.href =
-decodedText + "?v=" + Date.now();
-
+decodedText + "&v=" + Date.now();
 
 },
 
-
-(error)=>{
-
-
-}
+(error)=>{}
 
 );
 
-
 };
-
-
-const deck =
-document.getElementById("deck");
-
-const inventoryBox =
-document.getElementById("inventory");
 
 deck.onclick=function(){
 
 if(inventory.length===0){
 
 inventoryBox.innerHTML=
-`
-Колода пуста.
-`;
+"Колода пуста";
 
 return;
 
 }
 
 inventoryBox.innerHTML=
-`
-<h2>Твои Арканы</h2>
-`
+
+"<h2>Твои Арканы</h2>"
+
 +
-inventory
-.map(card=>`<p>${card}</p>`)
-.join("");
 
-};`
-show();
+inventory.map(id=>{
 
+return "<p>"+cards[id].name+"</p>";
+
+}).join("");
+
+};
 
 </script>
-
 
 </body>
 
