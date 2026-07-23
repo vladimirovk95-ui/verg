@@ -70,14 +70,13 @@ margin:20px auto;
 <div id="text"></div>
 
 
-<button id="next">
-Продолжить
-</button>
-
-
 <button id="scan">
 Сканировать Аркану
 </button>
+
+<div id="status">
+Ожидание Аркана...
+</div>
 
 
 <div id="reader"></div>
@@ -105,17 +104,159 @@ const params =
 new URLSearchParams(window.location.search);
 
 
-const card = params.get("card");
+const keeper =
+params.get("k");
+
+const arcana =
+params.get("a");
 
 
 if(card){
 
-startCard(card);
+if(keeper && arcana){
+
+startCard(
+keeper + "-" + arcana
+);
+
+}
 
 }
 
 
+const cards={
 
+"01-05":{
+
+text:`
+
+...
+
+Аркан распознан.
+
+V — Иерофант.
+
+Первый фрагмент пути найден.
+
+Но имя хранителя
+ещё скрыто.
+
+`
+
+},
+
+"01-04":{
+
+text:`
+
+Император.
+
+Ты получил часть силы
+первого хранителя.
+
+`
+
+},
+
+"02-08":{
+
+text:`
+
+Сила.
+
+Этот аркан невозможно
+получить случайно.
+
+`
+
+}
+
+};
+
+fool:{
+
+text:`
+
+...
+
+Соединение установлено.
+
+Карта обнаружена.
+
+АРКАН 0
+
+ШУТ
+
+Интересно...
+
+Именно эта карта
+открывает путь.
+
+`
+
+},
+
+hierophant:{
+
+text:`
+
+АРКАН V
+
+Иерофант.
+
+Значит первый хранитель
+решил открыть тебе дверь.
+
+`
+
+},
+
+strength:{
+
+text:`
+
+АРКАН VIII
+
+Сила.
+
+Следующий круг принят.
+
+`
+
+}
+
+};
+
+function startCard(id){
+
+if(cards[id]){
+
+text.innerHTML =
+cards[id].text;
+
+}
+
+else{
+
+text.innerHTML=
+`
+Карта не распознана.
+
+Вердж ожидает Аркан.
+`;
+
+}
+
+}
+
+if(cards[id]){
+
+text.innerHTML =
+cards[id].text;
+
+}
+
+}
 const scenes=[
 
 `
@@ -210,7 +351,9 @@ qrbox:250
 scanner.stop();
 
 
-window.location.href=decodedText;
+
+window.location.href =
+decodedText + "?v=" + Date.now();
 
 
 },
