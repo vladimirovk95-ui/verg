@@ -105,9 +105,12 @@ const params =
 new URLSearchParams(window.location.search);
 
 
-if(params.get("start")==="fool"){
+const card = params.get("card");
 
-stage=1;
+
+if(card){
+
+startCard(card);
 
 }
 
