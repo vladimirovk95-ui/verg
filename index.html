@@ -1,11 +1,195 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-    <meta charset="UTF-8">
-    <title>VERG.exe</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VERG.exe</title>
+
+<style>
+
+body {
+    background:#050505;
+    color:#ddd;
+    font-family: Georgia, serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    margin:0;
+}
+
+#game {
+    width:90%;
+    max-width:600px;
+    text-align:center;
+}
+
+h1 {
+    color:white;
+    letter-spacing:5px;
+}
+
+#text {
+    min-height:150px;
+    line-height:1.6;
+    font-size:20px;
+}
+
+button {
+
+background:#111;
+color:white;
+border:1px solid #777;
+padding:15px 30px;
+font-size:18px;
+cursor:pointer;
+
+}
+
+button:hover {
+
+background:#333;
+
+}
+
+.hidden {
+
+display:none;
+
+}
+
+</style>
+
 </head>
+
+
 <body>
-    <h1>VERG.exe</h1>
-    <p>Соединение установлено...</p>
+
+
+<div id="game">
+
+<h1>VERG.exe</h1>
+
+<div id="text"></div>
+
+<button id="next">
+Продолжить
+</button>
+
+
+</div>
+
+
+
+<script>
+
+
+const text=document.getElementById("text");
+const button=document.getElementById("next");
+
+
+let stage=0;
+
+
+const scenes=[
+
+
+`
+...
+
+Соединение установлено.
+
+...
+`,
+
+
+`
+Карта обнаружена.
+
+АРКАН 0
+
+ШУТ
+`,
+
+
+`
+Интересно...
+
+Именно с этой карты
+начинаются все путешествия.
+
+`,
+
+
+`
+Я — Вердж.
+
+Цифровое отражение
+твоего проводника.
+
+Сегодня тебе предстоит
+пройти путь.
+
+`,
+
+
+`
+Она ждёт тебя.
+
+Но путь к ней лежит
+через круги Ада.
+
+Начинаем спуск.
+`
+
+];
+
+
+
+function show(){
+
+text.innerHTML=scenes[stage];
+
+
+if(stage===scenes.length-1){
+
+button.innerHTML="Начать";
+
+}
+
+
+}
+
+
+
+button.onclick=()=>{
+
+
+stage++;
+
+
+if(stage>=scenes.length){
+
+stage=0;
+
+}
+
+
+show();
+
+
+}
+
+
+
+show();
+
+
+</script>
+
+
 </body>
+
 </html>
