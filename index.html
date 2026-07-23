@@ -92,6 +92,17 @@ const button=document.getElementById("next");
 
 let stage=0;
 
+const params = new URLSearchParams(window.location.search);
+
+const start = params.get("start");
+
+
+if(start==="fool"){
+
+stage=1;
+
+}
+
 
 const scenes=[
 
