@@ -73,7 +73,11 @@ margin:20px auto;
 <button id="scan">
 Сканировать Аркану
 </button>
+<button id="deck">
+Мои Арканы
+</button>
 
+<div id="inventory"></div>
 <div id="status">
 Ожидание Аркана...
 </div>
@@ -98,7 +102,10 @@ const scan=document.getElementById("scan");
 
 
 let stage=0;
-
+let inventory =
+JSON.parse(
+localStorage.getItem("verg_cards")
+) || [];
 
 const params =
 new URLSearchParams(window.location.search);
@@ -226,7 +233,20 @@ text:`
 }
 
 };
+function addCard(card){
 
+if(!inventory.includes(card)){
+
+inventory.push(card);
+
+localStorage.setItem(
+"verg_cards",
+JSON.stringify(inventory)
+);
+
+}
+
+}
 function startCard(id){
 
 if(cards[id]){
@@ -370,7 +390,35 @@ decodedText + "?v=" + Date.now();
 };
 
 
+const deck =
+document.getElementById("deck");
 
+const inventoryBox =
+document.getElementById("inventory");
+
+deck.onclick=function(){
+
+if(inventory.length===0){
+
+inventoryBox.innerHTML=
+`
+Колода пуста.
+`;
+
+return;
+
+}
+
+inventoryBox.innerHTML=
+`
+<h2>Твои Арканы</h2>
+`
++
+inventory
+.map(card=>`<p>${card}</p>`)
+.join("");
+
+};`
 show();
 
 
