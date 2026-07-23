@@ -95,7 +95,15 @@ let stage=0;
 const params = new URLSearchParams(window.location.search);
 
 const start = params.get("start");
+const saved =
+localStorage.getItem("verg_stage");
 
+
+if(saved && !start){
+
+stage=parseInt(saved);
+
+}
 
 if(start==="fool"){
 
@@ -176,6 +184,28 @@ button.innerHTML="Начать";
 
 
 button.onclick=()=>{
+
+
+stage++;
+
+
+localStorage.setItem(
+"verg_stage",
+stage
+);
+
+
+if(stage>=scenes.length){
+
+stage=scenes.length-1;
+
+}
+
+
+show();
+
+
+}
 
 
 stage++;
