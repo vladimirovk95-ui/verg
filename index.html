@@ -95,16 +95,7 @@ let stage=0;
 const params = new URLSearchParams(window.location.search);
 
 const start = params.get("start");
-    const saved =
-localStorage.getItem("verg_stage");
-
-
-if(saved && !start){
-
-stage=parseInt(saved);
-
-}
-
+    
 
 if(start==="fool"){
 
