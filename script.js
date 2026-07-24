@@ -2,56 +2,40 @@ const text = document.getElementById("text");
 const action = document.getElementById("action");
 const extra = document.getElementById("extra");
 const scan = document.getElementById("scan");
+
 const params = new URLSearchParams(window.location.search);
 
 const card = params.get("card");
+const start = params.get("start");
 
 
-duma_priestess:`
-
-АРКАН II
-
-ЖРИЦА
-
-
-Первый хранитель найден.
-
-
-Ты увидел больше,
-чем просто человека.
-
-
-Ты заметил историю,
-которая скрыта внутри.
-
-`,
-
-
-};
-function loadCard(){
-
-if(!card){
-return;
-}
-
-
-if(cards[card]){
-
-text.innerHTML = cards[card];
-
-}
-else{
-
-text.innerHTML = `
-
-Запись не найдена.
-
-`;
-
-}
-
-}
 let step = 0;
+
+
+let save = JSON.parse(
+localStorage.getItem("verg_save")
+)
+||
+{
+cards:[]
+};
+
+
+let cards = save.cards;
+
+
+
+function saveGame(){
+
+localStorage.setItem(
+"verg_save",
+JSON.stringify({
+cards:cards
+})
+);
+
+}
+
 
 
 const intro = [
@@ -101,15 +85,7 @@ const intro = [
 `,
 
 `
-Первый хранитель:
-
-тот, кто работает со словами.
-
-Тот, кто может превратить мысли
-в историю.
-
-
-Первая цель открыта.
+Первый хранитель.
 
 Ищи того,
 кто работает со словами.
@@ -118,52 +94,273 @@ const intro = [
 кто может превратить мысли
 в историю.
 
-
 ...
 
-Имя неизвестно.
-
-Но след уже найден.
-
+Дюма ждёт.
 `
 
 ];
 
 
-function showIntro(){
-
-text.innerHTML = intro[step];
-
-}
 
 
-action.onclick=function(){
+const database = {
 
-step++;
 
-if(step >= intro.length){
+duma_priestess:`
 
-step=intro.length-1;
+АРКАН II
 
-}
+ЖРИЦА
 
-showIntro();
+
+Первый хранитель найден.
+
+
+Ты увидел больше,
+чем просто человека.
+
+
+Ты заметил историю,
+которая скрыта внутри.
+
+`,
+
+
+duma_magician:`
+
+АРКАН I
+
+МАГ
+
+
+Создание начинается там,
+где другие видят пустоту.
+
+
+`,
+
+
+duma_hierophant:`
+
+АРКАН V
+
+ИЕРОФАНТ
+
+
+Некоторые знания
+передаются только людьми.
+
+`
 
 };
 
 
 
+
+
+function showIntro(){
+
+
+text.innerHTML = intro[step];
+
+
+}
+
+
+
+
+
+function addCard(id){
+
+
+if(!cards.includes(id)){
+
+
+cards.push(id);
+
+saveGame();
+
+
+}
+
+}
+
+
+
+
+
+function loadCard(){
+
+
+if(!card){
+
+return;
+
+}
+
+
+
+if(database[card]){
+
+
+addCard(card);
+
+
+text.innerHTML =
+database[card];
+
+
+
+checkProgress();
+
+
+
+}
+
+else{
+
+
+text.innerHTML =
+"Аркан не найден.";
+
+
+}
+
+
+}
+
+
+
+
+function checkProgress(){
+
+
+let dumaCards = cards.filter(id =>
+
+id.startsWith("duma")
+
+).length;
+
+
+
+if(dumaCards===2){
+
+
+extra.innerHTML = `
+
+
+<p>
+Хранитель открыл достаточно данных.
+</p>
+
+
+<button onclick="continueKeeper()">
+
+Продолжить с этим хранителем
+
+</button>
+
+
+<button onclick="nextKeeper()">
+
+Следующая цель
+
+</button>
+
+
+`;
+
+}
+
+
+}
+
+
+
+
+function continueKeeper(){
+
+
+extra.innerHTML = `
+
+
+Вердж:
+
+
+<br><br>
+
+
+Хороший выбор.
+
+Некоторые ответы
+нельзя получить сразу.
+
+
+`;
+
+}
+
+
+
+
+
+function nextKeeper(){
+
+
+extra.innerHTML = `
+
+
+Вердж:
+
+
+<br><br>
+
+
+Маршрут обновлён.
+
+Следующий хранитель ожидает.
+
+
+`;
+
+}
+
+
+
+
+
+action.onclick=function(){
+
+
+step++;
+
+
+if(step>=intro.length){
+
+
+step=intro.length-1;
+
+
+}
+
+
 showIntro();
-loadCard();
-localStorage.setItem(
-"verg_started",
-"true"
-);
+
+
+};
+
+
+
+
 
 
 scan.onclick=function(){
 
-const scanner = new Html5Qrcode("reader");
+
+const scanner =
+new Html5Qrcode("reader");
+
 
 
 scanner.start(
@@ -188,15 +385,40 @@ window.location.href =
 decodedText;
 
 
-},
-
-
-(error)=>{
-
-
 }
 
 );
 
 
 };
+
+
+
+
+
+
+if(start==="fool"){
+
+
+showIntro();
+
+
+}
+
+
+else if(card){
+
+
+loadCard();
+
+
+}
+
+
+else{
+
+
+showIntro();
+
+
+}
