@@ -1,92 +1,94 @@
 body {
 
-background:#111;
+    background: #0b0b0b;
+    color: white;
+    font-family: Arial, sans-serif;
 
-color:white;
+    margin: 0;
+    padding: 20px;
 
-font-family:Arial, sans-serif;
-
-text-align:center;
-
-margin:0;
-
-padding:20px;
+    text-align: center;
 
 }
 
 
 #game {
 
-max-width:500px;
-
-margin:auto;
+    max-width: 500px;
+    margin: 0 auto;
 
 }
 
 
 h1 {
 
-font-size:40px;
+    font-size: 42px;
+    letter-spacing: 8px;
 
-letter-spacing:5px;
+    margin-bottom: 40px;
 
 }
+
 
 
 #text {
 
-min-height:220px;
+    min-height: 250px;
 
-font-size:20px;
+    font-size: 20px;
 
-line-height:1.6;
+    line-height: 1.6;
 
-margin-top:30px;
+    white-space: pre-line;
 
-white-space:pre-line;
+    margin-bottom: 20px;
 
 }
+
 
 
 button {
 
-background:#222;
+    background: #222;
 
-color:white;
+    color: white;
 
-border:1px solid white;
+    border: 1px solid white;
 
-padding:15px 25px;
+    border-radius: 10px;
 
-font-size:18px;
+    padding: 15px 25px;
 
-border-radius:10px;
+    font-size: 18px;
 
-margin:10px;
+    margin: 10px;
+
+}
+
+
+
+button:hover {
+
+    background: #444;
 
 }
 
-
-button:active {
-
-transform:scale(0.95);
-
-}
 
 
 #extra {
 
-margin-top:30px;
+    margin-top: 30px;
 
-font-size:18px;
+    font-size: 18px;
 
 }
 
 
+
 #reader {
 
-width:300px;
+    width: 300px;
 
-margin:20px auto;
+    margin: 20px auto;
 
 }
