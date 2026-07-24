@@ -1,40 +1,16 @@
 const text = document.getElementById("text");
 const action = document.getElementById("action");
-const extra = document.getElementById("extra");
 const scan = document.getElementById("scan");
+const extra = document.getElementById("extra");
+
 
 const params = new URLSearchParams(window.location.search);
 
-const card = params.get("card");
 const start = params.get("start");
+const card = params.get("card");
 
 
 let step = 0;
-
-
-let save = JSON.parse(
-localStorage.getItem("verg_save")
-)
-||
-{
-cards:[]
-};
-
-
-let cards = save.cards;
-
-
-
-function saveGame(){
-
-localStorage.setItem(
-"verg_save",
-JSON.stringify({
-cards:cards
-})
-);
-
-}
 
 
 
@@ -44,70 +20,79 @@ const intro = [
 ...
 
 Соединение установлено.
+
 `,
 
 `
+
 АРКАН 0
 
 ШУТ
+
 `,
 
 `
+
 Интересно...
 
 Именно с этой карты
 обычно начинаются самые странные истории.
+
 `,
 
 `
+
 Я — Вердж.
 
 Цифровой проводник
 этого испытания.
+
 `,
 
 `
-Сегодня тебе предстоит пройти путь.
 
-На нём будут хранители.
+Денис.
 
-Они настоящие люди.
+Пользователь найден.
 
-Но свои имена они просто так не отдадут.
+Начинаем испытание.
+
 `,
 
 `
-Твоя задача:
 
-найти хранителей,
-понять кто они,
-и получить их Арканы.
+На пути будут хранители.
+
+Они не отдадут свои имена просто так.
+
+Тебе нужно будет понять,
+кто они.
+
 `,
 
 `
-Первый хранитель.
 
-Ищи того,
-кто работает со словами.
+Первый хранитель:
 
-Того,
-кто может превратить мысли
+тот, кто работает со словами.
+
+Тот, кто превращает мысли
 в историю.
 
-...
+Дюма.
 
-Дюма ждёт.
+Найди его.
+
 `
 
 ];
 
 
 
+const cards = {
 
-const database = {
 
-
-duma_priestess:`
+"duma_priestess":`
 
 АРКАН II
 
@@ -127,29 +112,26 @@ duma_priestess:`
 `,
 
 
-duma_magician:`
+"duma_magician":`
 
 АРКАН I
 
 МАГ
 
 
-Создание начинается там,
-где другие видят пустоту.
-
+Хранитель передал второй фрагмент.
 
 `,
 
 
-duma_hierophant:`
+"duma_hierophant":`
 
 АРКАН V
 
 ИЕРОФАНТ
 
 
-Некоторые знания
-передаются только людьми.
+Знание передано.
 
 `
 
@@ -158,14 +140,60 @@ duma_hierophant:`
 
 
 
+let save = JSON.parse(
+localStorage.getItem("verg_save")
+)
+||
+{
+cards:[]
+};
+
+
+let inventory = save.cards;
+
+
+
+
+function saveGame(){
+
+localStorage.setItem(
+"verg_save",
+JSON.stringify({
+cards: inventory
+})
+);
+
+}
+
+
+
 
 function showIntro(){
 
-
 text.innerHTML = intro[step];
 
+}
+
+
+
+
+action.onclick = function(){
+
+
+step++;
+
+
+if(step >= intro.length){
+
+step = intro.length - 1;
 
 }
+
+
+showIntro();
+
+
+};
 
 
 
@@ -174,10 +202,10 @@ text.innerHTML = intro[step];
 function addCard(id){
 
 
-if(!cards.includes(id)){
+if(!inventory.includes(id)){
 
 
-cards.push(id);
+inventory.push(id);
 
 saveGame();
 
@@ -201,19 +229,16 @@ return;
 
 
 
-if(database[card]){
+if(cards[card]){
 
 
 addCard(card);
 
 
-text.innerHTML =
-database[card];
-
+text.innerHTML = cards[card];
 
 
 checkProgress();
-
 
 
 }
@@ -223,7 +248,6 @@ else{
 
 text.innerHTML =
 "Аркан не найден.";
-
 
 }
 
@@ -236,19 +260,18 @@ text.innerHTML =
 function checkProgress(){
 
 
-let dumaCards = cards.filter(id =>
+let duma = inventory.filter(card =>
 
-id.startsWith("duma")
+card.startsWith("duma")
 
-).length;
+);
 
 
 
-if(dumaCards===2){
+if(duma.length === 2){
 
 
 extra.innerHTML = `
-
 
 <p>
 Хранитель открыл достаточно данных.
@@ -268,7 +291,6 @@ extra.innerHTML = `
 
 </button>
 
-
 `;
 
 }
@@ -284,18 +306,14 @@ function continueKeeper(){
 
 extra.innerHTML = `
 
-
 Вердж:
 
-
 <br><br>
-
 
 Хороший выбор.
 
 Некоторые ответы
-нельзя получить сразу.
-
+лучше получить постепенно.
 
 `;
 
@@ -310,17 +328,13 @@ function nextKeeper(){
 
 extra.innerHTML = `
 
-
 Вердж:
 
-
 <br><br>
-
 
 Маршрут обновлён.
 
 Следующий хранитель ожидает.
-
 
 `;
 
@@ -329,38 +343,10 @@ extra.innerHTML = `
 
 
 
-
-action.onclick=function(){
-
-
-step++;
+scan.onclick = function(){
 
 
-if(step>=intro.length){
-
-
-step=intro.length-1;
-
-
-}
-
-
-showIntro();
-
-
-};
-
-
-
-
-
-
-scan.onclick=function(){
-
-
-const scanner =
-new Html5Qrcode("reader");
-
+const scanner = new Html5Qrcode("reader");
 
 
 scanner.start(
@@ -381,11 +367,11 @@ qrbox:250
 scanner.stop();
 
 
-window.location.href =
-decodedText;
+window.location.href = decodedText;
 
 
 }
+
 
 );
 
@@ -396,16 +382,13 @@ decodedText;
 
 
 
-
-if(start==="fool"){
+if(start === "fool"){
 
 
 showIntro();
 
 
 }
-
-
 else if(card){
 
 
@@ -413,8 +396,6 @@ loadCard();
 
 
 }
-
-
 else{
 
 
