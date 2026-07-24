@@ -273,61 +273,15 @@ text:`
 
 ШУТ
 
-`
-
-},
-
-...
-
 Соединение установлено.
-
-Проверка пользователя...
-
-...
-
-Пользователь найден.
-
-`
-
----
-
-Пауза.
-
-Но дальше нам нужен отдельный сценарий, поэтому не будем всё запихивать в карту.
-
----
-
-
-
-АРКАН 0
-
-ШУТ
-
-
-Соединение установлено.
-
 
 Я — Вердж.
 
-
 Сегодня начинается испытание.
-
-
-На пути ты встретишь хранителей.
-
-
-Они не скажут тебе свои имена.
-
-
-Но оставят следы.
-
-
-Найди первого.
 
 `
 
 },
-
 
 
 duma_priestess: {
@@ -721,39 +675,7 @@ text:`
 
 };
 
-АРКАН I
 
-МАГ
-
-
-Создание начинается
-там,
-где другие видят пустоту.
-
-
-Фрагмент принят.
-
-`,
-
-
-
-gerakl_strength:`
-
-АРКАН VIII
-
-СИЛА
-
-
-Сила бывает разной.
-
-
-Иногда она заключается
-в том,
-чтобы продолжать путь.
-
-`
-
-};
 
 
 
@@ -779,7 +701,42 @@ saveGame();
 }
 
 }
+function checkKeeperProgress(cardId){
 
+
+let keeper =
+database[cardId]?.keeper;
+
+
+if(!keeper){
+return;
+}
+
+
+let count =
+cards.filter(id =>
+database[id]?.keeper === keeper
+).length;
+
+
+if(count===2){
+
+extra.innerHTML = `
+
+<button onclick="continueKeeper()">
+Продолжить с этим хранителем
+</button>
+
+
+<button onclick="nextKeeper()">
+Следующая цель
+</button>
+
+`;
+
+}
+
+}
 
 let keeper =
 database[cardId]?.keeper;
@@ -971,7 +928,7 @@ extra.innerHTML = `
 
 }
 
-}
+
 
 
 if(!cards.includes(id)){
@@ -1835,6 +1792,21 @@ function endGame(){
 
 text.innerHTML = `
 function endGame(){
+
+
+text.innerHTML = `
+
+VERG.exe
+
+Сеанс завершен.
+
+Спасибо, Денчик.
+
+`;
+
+extra.innerHTML="";
+
+}
 
 
 text.innerHTML = `
