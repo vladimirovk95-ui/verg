@@ -1,3 +1,32 @@
+function typeText(message){
+
+
+text.innerHTML="";
+
+
+let i=0;
+
+
+let timer=setInterval(()=>{
+
+
+text.innerHTML += message[i];
+
+
+i++;
+
+
+if(i>=message.length){
+
+clearInterval(timer);
+
+}
+
+
+},35);
+
+
+}
 const text =
 document.getElementById("text");
 
@@ -24,7 +53,17 @@ events:[]
 
 let cards = save.cards;
 let events = save.events;
+function saveGame(){
 
+localStorage.setItem(
+"verg_save",
+JSON.stringify({
+cards:cards,
+events:events
+})
+);
+
+}
 
 
 const params =
@@ -146,6 +185,26 @@ if(!cards.includes(id)){
 cards.push(id);
 
 
+events.push(
+"Получен Аркан: " + id
+);
+
+
+saveGame();
+
+
+}
+
+
+}
+
+
+if(!cards.includes(id)){
+
+
+cards.push(id);
+
+
 localStorage.setItem(
 "verg_cards",
 JSON.stringify(cards)
@@ -183,8 +242,9 @@ if(card){
 addCard(card);
 
 
-text.innerHTML =
+typeText(
 database[card]
+);
 ||
 "Аркан принят.";
 
@@ -251,12 +311,25 @@ extra.innerHTML=
 
 `
 
+extra.innerHTML=
+
+`
+
 <h3>Архив</h3>
 
-
 Восстановлено:
-
 ${progress}%
+
+
+<br><br>
+
+Записи:
+
+<br>
+
+${events.join("<br>")}
+
+`;
 
 
 `;
@@ -267,4 +340,51 @@ ${progress}%
 
 
 
-load();
+load();text.innerHTML +=
+"<br><br>" + vergState();
+function vergState(){
+
+
+let count = cards.length;
+
+
+if(count < 3){
+
+return `
+Соединение стабильно.
+`;
+
+}
+
+
+if(count < 8){
+
+return `
+Обнаружены небольшие ошибки архива.
+`;
+
+}
+
+
+if(count < 15){
+
+return `
+Внимание.
+
+Некоторые записи повреждены.
+`;
+
+}
+
+
+return `
+
+...
+
+Ошибка.
+
+Архив открыт полностью.
+
+`;
+
+}
