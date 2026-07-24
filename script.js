@@ -103,16 +103,16 @@ step=intro.length-1;
 }
 
 showIntro();
-localStorage.setItem(
-"verg_started",
-"true"
-);
+
 };
 
 
 
 showIntro();
-
+localStorage.setItem(
+"verg_started",
+"true"
+);
 
 
 scan.onclick=function(){
