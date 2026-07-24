@@ -257,59 +257,6 @@ return current === cardKeeper;
 
 
 }
-const database = {
-
-
-
-fool:`
-
-АРКАН 0
-
-ШУТ
-
-
-Соединение установлено.
-
-
-Я — Вердж.
-
-
-Сегодня начинается испытание.
-
-
-На пути ты встретишь хранителей.
-
-
-Твоя первая задача:
-
-найти того,
-кто умеет превращать
-обычные события
-в истории.
-
-`,
-
-
-
-duma_priestess:`
-
-АРКАН II
-
-ЖРИЦА
-
-
-Первый фрагмент получен.
-
-
-Ты увидел больше,
-чем просто внешность.
-
-
-Хранитель признан.
-
-`,
-
-
 
 const database = {
 
@@ -321,6 +268,14 @@ name:"Шут",
 keeper:"",
 
 text:`
+
+АРКАН 0
+
+ШУТ
+
+`
+
+},
 
 ...
 
@@ -822,7 +777,9 @@ saveGame();
 
 
 }
-function checkKeeperProgress(cardId){
+
+}
+
 
 let keeper =
 database[cardId]?.keeper;
@@ -1109,7 +1066,7 @@ text.innerHTML =
 database[card].text;
 
 
-function checkKeeperProgress(cardId){
+
 
 
 let keeper =
@@ -1877,9 +1834,37 @@ function endGame(){
 
 
 text.innerHTML = `
-text.innerHTML =
+function endGame(){
 
-database[card].text
+
+text.innerHTML = `
+
+VERG.exe
+
+
+<br><br>
+
+Сеанс завершен.
+
+
+<br><br>
+
+Спасибо, Денчик.
+
+
+<br><br>
+
+P.S.
+
+Зеленый цвет одежды
+зафиксирован как
+"особенность системы".
+
+`;
+
+extra.innerHTML="";
+
+}
 
 +
 
