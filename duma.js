@@ -114,7 +114,7 @@ return false;
 
 
 text.innerHTML = dumaCards[id].text;
-
+secretReaction(id);
 
 saveCard(id);
 
@@ -283,5 +283,51 @@ text.innerHTML = `
 `;
 
 extra.innerHTML = "";
+
+}function secretReaction(id){
+
+
+if(id !== "duma_world"){
+
+return;
+
+}
+
+
+text.innerHTML += `
+
+<br><br>
+
+Вердж:
+
+
+...
+
+
+Подождите.
+
+
+Слишком много данных.
+
+
+Перезапуск анализа...
+
+
+<br><br>
+
+
+Ладно.
+
+
+Я снова здесь.
+
+
+Это была просто ошибка чтения архива.
+
+
+Наверное.
+
+
+`;
 
 }
