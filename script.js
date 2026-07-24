@@ -657,9 +657,27 @@ function load(){
 if(start==="fool"){
 
 
-text.innerHTML =
-database.fool;
+if(database[card]){
 
+
+addCard(card);
+
+
+typeText(
+database[card].text
+);
+
+
+}
+else{
+
+
+typeText(
+"Аркан не найден."
+);
+
+
+}
 
 return;
 
