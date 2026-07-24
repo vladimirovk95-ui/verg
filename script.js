@@ -11,12 +11,19 @@ document.getElementById("extra");
 
 
 
-let cards =
+let save =
 JSON.parse(
-localStorage.getItem("verg_cards")
+localStorage.getItem("verg_save")
 )
 ||
-[];
+{
+cards:[],
+events:[]
+};
+
+
+let cards = save.cards;
+let events = save.events;
 
 
 
