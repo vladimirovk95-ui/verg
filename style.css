@@ -1,69 +1,92 @@
 body {
 
-background:#050505;
-color:#ddd;
+background:#111;
 
-font-family:Georgia, serif;
+color:white;
 
-display:flex;
-justify-content:center;
-align-items:center;
+font-family:Arial, sans-serif;
 
-min-height:100vh;
+text-align:center;
 
 margin:0;
+
+padding:20px;
 
 }
 
 
 #game {
 
-width:90%;
-max-width:600px;
+max-width:500px;
 
-text-align:center;
+margin:auto;
 
 }
 
 
 h1 {
 
+font-size:40px;
+
 letter-spacing:5px;
-color:white;
 
 }
 
 
 #text {
 
+min-height:220px;
+
 font-size:20px;
 
 line-height:1.6;
 
-min-height:200px;
+margin-top:30px;
+
+white-space:pre-line;
 
 }
 
 
 button {
 
-background:#111;
+background:#222;
 
 color:white;
 
-border:1px solid #777;
+border:1px solid white;
 
 padding:15px 25px;
 
+font-size:18px;
+
+border-radius:10px;
+
 margin:10px;
 
-font-size:16px;
+}
+
+
+button:active {
+
+transform:scale(0.95);
 
 }
 
 
 #extra {
 
-margin-top:20px;
+margin-top:30px;
+
+font-size:18px;
+
+}
+
+
+#reader {
+
+width:300px;
+
+margin:20px auto;
 
 }
