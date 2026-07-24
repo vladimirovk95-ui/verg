@@ -3,7 +3,9 @@ const action = document.getElementById("action");
 const extra = document.getElementById("extra");
 const scan = document.getElementById("scan");
 const params = new URLSearchParams(window.location.search);
+const params = new URLSearchParams(window.location.search);
 
+const card = params.get("card");
 const card = params.get("card");
 let step = 0;
 
