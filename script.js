@@ -5,6 +5,52 @@ const scan = document.getElementById("scan");
 const params = new URLSearchParams(window.location.search);
 
 const card = params.get("card");
+
+
+duma_priestess:`
+
+АРКАН II
+
+ЖРИЦА
+
+
+Первый хранитель найден.
+
+
+Ты увидел больше,
+чем просто человека.
+
+
+Ты заметил историю,
+которая скрыта внутри.
+
+`,
+
+
+};
+function loadCard(){
+
+if(!card){
+return;
+}
+
+
+if(cards[card]){
+
+text.innerHTML = cards[card];
+
+}
+else{
+
+text.innerHTML = `
+
+Запись не найдена.
+
+`;
+
+}
+
+}
 let step = 0;
 
 
@@ -55,7 +101,6 @@ const intro = [
 `,
 
 `
-
 Первый хранитель:
 
 тот, кто работает со словами.
@@ -109,6 +154,7 @@ showIntro();
 
 
 showIntro();
+loadCard();
 localStorage.setItem(
 "verg_started",
 "true"
